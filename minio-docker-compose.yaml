@@ -1,0 +1,17 @@
+services:
+  minio:
+    image: quay.io/minio/minio:RELEASE.2024-12-18T13-15-44Z
+    container_name: minio
+    restart: unless-stopped
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    user: "1000:1000"
+    environment:
+      MINIO_ROOT_USER: admin
+      MINIO_ROOT_PASSWORD: minio
+    volumes:
+      - "/media/test/Extreme SSD/minio-data:/data"
+    command: server /data --console-address ":9001"
+
+

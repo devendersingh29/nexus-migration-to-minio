@@ -1,0 +1,22 @@
+services:
+  nexus:
+    image: sonatype/nexus3:3.85.0
+    ports:
+      - "8081:8081"
+      - "9005:9005"
+      - "9006:9006"
+      - "9007:9007"
+      - "9009:9009"
+      - "9008:9008"
+    volumes:
+      - /opt/latest-nexus:/nexus-data
+    environment:
+      - INSTALL4J_ADD_VM_PARAMS=-Xms4g -Xmx8g -XX:MaxDirectMemorySize=4g -XX:+UseG1GC -XX:MaxGCPauseMillis=500 -Djava.util.prefs.userRoot=/tmp
+    restart: unless-stopped
+    user: "200:200"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
